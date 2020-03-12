@@ -1,0 +1,58 @@
+﻿<Window x:Class="WindowVisualTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:windowVisualTree="clr-namespace:WindowVisualTree"
+        xmlns:wpfControls="clr-namespace:WindowVisualTree.WpfControls"
+        mc:Ignorable="d"
+        Title="Window Visual Tree Explorer" Height="650" Width="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        
+        <ListView ItemsSource="{Binding Windows}" Grid.Column="0" Grid.Row="1" Margin="5" 
+                  SelectedItem="{Binding SelectedWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock  Text="{Binding Title}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding WindowTitle}"/>
+
+        <wpfControls:ExtendedTreeView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding WindowControls}" SelectedItem_="{Binding SelectedTreeNode, Mode=TwoWay}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type windowVisualTree:TreeNode}" ItemsSource="{Binding Children}" >
+                    <Label Content="{Binding NameLong}" />
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </wpfControls:ExtendedTreeView>
+
+        <StackPanel Grid.Column="2" Grid.Row="1" >
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Name: "/>
+                <Label Content="{Binding ControlName}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Type: "/>
+                <Label Content="{Binding ControlType}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Bounds: "/>
+                <Label Content="{Binding ControlBounds}"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>
