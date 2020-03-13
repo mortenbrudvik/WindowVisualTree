@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Automation;
 
 namespace WindowVisualTree
@@ -32,10 +34,51 @@ namespace WindowVisualTree
 
         public AutomationElement.AutomationElementInformation ControlElement => _rootElement.Current;
 
+        public string AllPropertiesText
+        {
+            get
+            {
+                var properties = _rootElement.GetSupportedProperties();
+                var elementProperties = new List<ElementProperty>();
+                foreach (var property in properties)
+                {
+                    var propValue = _rootElement.GetCurrentPropertyValue(property)?.ToString();
+                    elementProperties.Add(new ElementProperty(property.ProgrammaticName, propValue, property.Id));
+                }
+
+                var builder = new StringBuilder();
+                foreach (var elementProperty in elementProperties)
+                {
+                    builder.Append(elementProperty + Environment.NewLine);
+                }
+
+                return builder.ToString();
+            }
+        }
+
         public ObservableCollection<TreeNode> Children { get; set; }
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetWindowRect(HandleRef hWnd, out Rectangle lpRect);
+    }
+
+    struct ElementProperty
+    {
+        public string Name { get; }
+        public string Value { get; }
+        public int Id { get; }
+
+        public ElementProperty(string name, string value, int id)
+        {
+            Name = name;
+            Value = value;
+            Id = id;
+        }
+
+        public override string ToString()
+        {
+            return $"{Id} : {Name} : {Value}";
+        }
     }
 }

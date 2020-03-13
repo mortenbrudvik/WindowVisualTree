@@ -51,6 +51,7 @@ namespace WindowVisualTree
                 OnPropertyChanged("ControlName");
                 OnPropertyChanged("ControlType");
                 OnPropertyChanged("ControlBounds");
+                OnPropertyChanged("AllPropertiesText");
             }
         }
 
@@ -65,6 +66,8 @@ namespace WindowVisualTree
                 return bounds;
             }
         }
+
+        public string AllPropertiesText => _selectedTreeNode?.AllPropertiesText;
 
         public ObservableCollection<TreeNode> WindowControls { get; } = new ObservableCollection<TreeNode>();
 

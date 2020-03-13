@@ -10,8 +10,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -39,20 +39,9 @@
             </TreeView.Resources>
         </wpfControls:ExtendedTreeView>
 
-        <StackPanel Grid.Column="2" Grid.Row="1" >
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Name: "/>
-                <Label Content="{Binding ControlName}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Type: "/>
-                <Label Content="{Binding ControlType}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Bounds: "/>
-                <Label Content="{Binding ControlBounds}"/>
-            </StackPanel>
-        </StackPanel>
+
+
+            <TextBox  Grid.Column="2" Grid.Row="1" Text="{Binding AllPropertiesText, Mode=OneWay}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
 
     </Grid>
 </Window>
